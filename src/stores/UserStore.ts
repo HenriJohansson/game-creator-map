@@ -1,17 +1,20 @@
 import { reactive } from 'vue'
 
-const store: {userName: string | null, token: string | null} = {
-  userName: null,
+const store: {userId: string | null, token: string | null} = {
+  userId: null,
   token: null
 }
 const UserStore = reactive(store)
 
 export const UserStoreHooks = {
   saveToken: (userName: string, token: string): void => {
-    UserStore.userName = userName;
+    UserStore.userId = userName;
     UserStore.token = token;
   },
   getToken: (): string | null => {
     return UserStore.token
+  },
+  getUserId: (): string | null => {
+    return UserStore.userId
   }
 }
