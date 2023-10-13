@@ -8,25 +8,25 @@ provideApolloClient(apolloClient);
 export const MutationStore = {
 
   ADD_MARKER_MUTATION: gql`
-  mutation addMarker ($markerName: String!, $location: GeoJsonPointInput!, $creationDate: DateTime!) {
-    addMarker(marker_name: $markerName, location: $location, creation_date: $creationDate) {
-      id
-      marker_name
-      description
-      creation_date
-      location {
-        coordinates
-      }
-      owner {
-        id
-      }
+  mutation addMarker($markerName: String!, $location: GeoJsonPointInput!, $creationDate: DateTime!, $addMarkerId: ID!) {
+  addMarker(marker_name: $markerName, location: $location, creation_date: $creationDate, id: $addMarkerId) {
+    id
+    marker_name
+    description
+    creation_date
+    location {
+      coordinates
     }
-  }`
+    owner {
+      id
+    }
+  }
+}`
   ,
   getAddMarkerVariables: (marker: UUIDMark) => {
 
     const variables = {
-      id: marker.id,
+      addMarkerId: marker.id,
       markerName: marker.marker_name,
       description: marker.description,
       creationDate: marker.creation_date,
