@@ -12,30 +12,6 @@ export const Queries = {
       location {
         coordinates
       }
-    }`,
-  login: gql`
-    mutation Login($credentials: Credentials!) {
-      login(credentials: $credentials) {
-        message
-        token
-        user {
-          email
-          id
-          user_name
-        }
-      }
-    }
-      `,
-  checkToken: gql`
-    query CheckToken {
-        checkToken {
-          message
-          user {
-            full_name
-          }
-        }
-      }
-    `
     }
   }`
 }

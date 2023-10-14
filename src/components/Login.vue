@@ -1,42 +1,42 @@
 <script setup lang="ts">
 import { ref, Ref } from 'vue';
-//import { useMutation } from "@vue/apollo-composable";
-//import { Queries } from '@/stores/QueryStore';
-import { Credentials } from "../interfaces/Credentials";
 import { doGraphQLFetch } from "../stores/fetch";
 import LoginMessageResponse from "../interfaces/LoginMessageResponse";
 import { loginQ } from "../querys/LoginQuery";
+
 const hover = ref(false);
 const checked = ref(false);
 const login: Ref<HTMLElement | null | undefined> = ref();
 const apiURL = import.meta.env.VITE_BACKEND_URL;
 
-const credentials: Credentials = {
-  username: "test@testi.com",
-  password: "1234",
-};
+const email = ref("");
+const password = ref("");
 
 const loginFunction = async () => {
+  console.log(email.value + " " + password.value);
+  const queryData = {
+    email: email.value,
+    password: password.value,
+  };
   try {
-    const loginData = (await doGraphQLFetch(apiURL, loginQ, {
-      credentials,
-    })) as LoginMessageResponse;
+    const loginData = (await doGraphQLFetch(apiURL, loginQ, queryData)) as LoginMessageResponse;
     console.log(loginData);
   } catch (error) {
     console.log(error);
   }
 }
 </script>
+
 <template>
   <div style="width: 250px; height: 250px; visibility: hidden;" id="form_borders">
     <div @mouseover="hover = true" @mouseleave="hover = false" :class="{ active: hover, inactive: !hover }" ref="login"
       id="form_background">
       <div v-if="hover" class="active" id="form">
         <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
+        <input v-model="email" type="text" placeholder="Enter Username" name="uname" required>
 
         <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
+        <input v-model="password" type="password" placeholder="Enter Password" name="psw" required>
 
         <button @click="loginFunction">Login</button>
         <label>
@@ -47,6 +47,7 @@ const loginFunction = async () => {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 div {

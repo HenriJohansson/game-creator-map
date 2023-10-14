@@ -1,23 +1,24 @@
 const loginQ = `
-mutation Login($credentials: Credentials!) {
-    login(credentials: $credentials) {
-      message
-      token
-      user {
-        email
-        id
-        user_name
-      }
+mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    message
+    token
+    user {
+      email
+      full_name
+      id
     }
   }
-  `;
+}
+`;
+
 
 const checkToken = `
 query CheckToken {
     checkToken {
       message
       user {
-        user_name
+        full_name
       }
     }
   }

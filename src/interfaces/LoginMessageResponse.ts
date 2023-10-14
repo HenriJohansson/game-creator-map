@@ -2,8 +2,8 @@ import { User } from './User';
 
 export default interface LoginMessageResponse {
     login: {
-        token?: string;
         message: string;
+        token?: string;
         user: User;
     };
 }
