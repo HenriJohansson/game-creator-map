@@ -24,6 +24,6 @@ query CheckToken {
 `;
 
 export {
-    loginQ,
-    checkToken
+  loginQ,
+  checkToken
 };
