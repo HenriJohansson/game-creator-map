@@ -9,7 +9,7 @@ export const MutationStore = {
 
   ADD_MARKER_MUTATION: gql`
   mutation addMarker($markerName: String!, $location: GeoJsonPointInput!, $creationDate: DateTime!, $addMarkerId: ID!) {
-  addMarker(marker_name: $markerName, location: $location, creation_date: $creationDate, id: $addMarkerId) {
+  addMarker(marker_name: $markerName, location: $location, creation_date: $creationDate, id: $addMarkerId, token: $token) {
     id
     marker_name
     description
@@ -20,6 +20,7 @@ export const MutationStore = {
     owner {
       id
     }
+    token
   }
 }`
   ,
@@ -33,8 +34,8 @@ export const MutationStore = {
       location: marker.location,
       owner: {
         id: UserStoreHooks.getUserId(),
-        token: UserStoreHooks.getToken()
-      }
+      },
+      token: UserStoreHooks.getToken()
     }
 
     return {
