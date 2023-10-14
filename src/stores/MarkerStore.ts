@@ -1,5 +1,5 @@
 import { UUIDMark } from '@/interfaces/Mark'
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 
 const store: {marksArray: UUIDMark[], chosenMark: UUIDMark | null} = {
   marksArray: [],
@@ -19,21 +19,21 @@ export const MarkerStoreHooks = {
    * @param mark Mark you want to push
    */
   marksArrayPush: (mark: UUIDMark): void => {
-    const markIndex = MarkerStoreHooks.findIndexOfMark(mark)
+    const markIndex = MarkerStoreHooks.findIndexOfMark(mark);
     if( markIndex === -1){
-      mark.creation_date = new Date()
-      MarkerStore.marksArray.push(mark)
+      mark.creation_date = new Date();
+      MarkerStore.marksArray.push(mark);
     } else{
-      MarkerStoreHooks.setToArrayIndex(mark, markIndex)
+      MarkerStoreHooks.setToArrayIndex(mark, markIndex);
     }
 
   },
   setToArrayIndex: (mark: UUIDMark , index: number): void => {
-    MarkerStore.marksArray[index] = mark
+    MarkerStore.marksArray[index] = mark;
   },
   findIndexOfMark:(mark: UUIDMark): number => {
     return MarkerStore.marksArray
-    .findIndex(m=> m.id === mark.id)
+    .findIndex(m=> m.id === mark.id);
   },
   /**
    * ChosenMark is the mark that the user is either creating or modifying at this time.
@@ -47,7 +47,3 @@ export const MarkerStoreHooks = {
     MarkerStore.chosenMark = mark;
   }
 }
-
-watch(MarkerStore, () => {
-  console.log("marker store updated")
-}, {deep:true})

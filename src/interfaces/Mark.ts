@@ -8,11 +8,6 @@ interface Mark {
 }
 interface UUIDMark extends Mark {
   id: string
-  marker_name: string;
-  description: string;
-  location: Point;
-  user: string;
-  creation_date: Date;
 }
 
 export type {Mark, UUIDMark};
