@@ -3,6 +3,7 @@ import { ref, Ref } from 'vue';
 import { doGraphQLFetch } from "../stores/fetch";
 import LoginMessageResponse from "../interfaces/LoginMessageResponse";
 import { loginQ } from "../querys/LoginQuery";
+import { UserStoreHooks } from "../stores/UserStore";
 
 const hover = ref(false);
 const checked = ref(false);
@@ -21,7 +22,14 @@ const loginFunction = async () => {
   try {
     const loginData = (await doGraphQLFetch(apiURL, loginQ, queryData)) as LoginMessageResponse;
     console.log(loginData);
+    if (loginData.login.token != null) {
+      UserStoreHooks.saveToken(loginData.login.user.id, loginData.login.token);
+      alert("Login successful");
+
+      console.log("ID: " + UserStoreHooks.getUserId() + ", Token: " + UserStoreHooks.getToken());
+    }
   } catch (error) {
+    alert("Wrong username or password");
     console.log(error);
   }
 }
