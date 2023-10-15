@@ -1,5 +1,5 @@
 <template>
-  <div id="createMarker">
+  <div id="createMarker" v-if="UserStoreHooks.getUserId() !== null">
     <h1>Create Marker</h1>
     <input id="marker_name"
       v-model="nameRef"
@@ -16,6 +16,7 @@ import { type UUIDMark } from '@/interfaces/Mark';
 import { defineExpose, onMounted, ref, watch} from 'vue';
 import { MarkerStoreHooks } from '@/stores/MarkerStore'
 import { orderedMarkerFactorySingleton } from '@/classes/OrderedMarkFactory'
+import { UserStoreHooks } from '@/stores/UserStore';
 
 const currentCreationID: string = crypto.randomUUID();
 const nameRef = ref<string>();

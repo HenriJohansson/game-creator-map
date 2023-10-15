@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Login></Login>
+    <Login @reload="reloadCreateMarker()"></Login>
     <CreateMarker :key="reloadCreator"/>
     <div class="map">
       <Map @reload="reloadCreateMarker()" />

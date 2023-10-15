@@ -12,6 +12,7 @@ const apiURL = import.meta.env.VITE_BACKEND_URL;
 
 const email = ref("");
 const password = ref("");
+const emit = defineEmits(['reload'])
 
 const loginFunction = async () => {
   console.log(email.value + " " + password.value);
@@ -25,8 +26,7 @@ const loginFunction = async () => {
     if (loginData.login.token != null) {
       UserStoreHooks.saveToken(loginData.login.user.id, loginData.login.token);
       alert("Login successful");
-
-      console.log("ID: " + UserStoreHooks.getUserId() + ", Token: " + UserStoreHooks.getToken());
+      emit('reload');
     }
   } catch (error) {
     alert("Wrong username or password");
