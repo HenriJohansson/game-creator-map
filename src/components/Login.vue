@@ -14,14 +14,12 @@ const password = ref("");
 const emit = defineEmits(['reload'])
 
 const loginFunction = async () => {
-  console.log(email.value + " " + password.value);
   const queryData = {
     email: email.value,
     password: password.value,
   };
   try {
     const loginData = (await doGraphQLFetch(apiURL, loginQ, queryData)) as LoginMessageResponse;
-    console.log(loginData);
     if (loginData.login.token != null) {
       UserStoreHooks.saveToken(loginData.login.user.id, loginData.login.token);
       alert("Login successful");
@@ -29,7 +27,6 @@ const loginFunction = async () => {
     }
   } catch (error) {
     alert("Wrong username or password");
-    console.log(error);
   }
 }
 

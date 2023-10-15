@@ -25,20 +25,17 @@ export const MarkerStoreHooks = {
     const markIndex = MarkerStoreHooks.findIndexOfMark(mark);
     if( markIndex === -1){
       mark.creation_date = new Date();
-      console.log(mark);
-      console.log(MarkerStore.marksArray);
       MarkerStore.marksArray = [...MarkerStore.marksArray, mark];
     } else{
-      MarkerStoreHooks.setToArrayIndex(mark, markIndex);
+      MarkerStore.marksArray[markIndex] = mark;
     }
-
   },
-  setToArrayIndex: (mark: UUIDMark , index: number): void => {
-    MarkerStore.marksArray[index] = mark;
-  },
-  findIndexOfMark:(mark: UUIDMark): number => {
+  findIndexOfMark: (mark: UUIDMark): number => {
     return MarkerStore.marksArray
     .findIndex(m=> m.id === mark.id);
+  },
+  deleteMarkerFromIndex: (index: number): void => {
+    MarkerStore.marksArray.splice(index, 1);
   },
   /**
    * ChosenMark is the mark that the user is either creating or modifying at this time.
@@ -50,15 +47,16 @@ export const MarkerStoreHooks = {
   },
   setChosenMark: (mark: UUIDMark): void => {
     MarkerStore.chosenMark = mark;
+  },
+  updateMarkerStore: (): void => {
+    const { result } = useQuery(Queries.queryForMarkersByUser);
+
+    watch(result, ()=> {
+      MarkerStore.marksArray = result.value.markersByUser as UUIDMark[];
+    })
   }
 }
 
 watch(UserStoreHooks.getUserStore(), () => {
-  const { result } = useQuery(Queries.queryForMarkersByUser);
-
-  watch(result, ()=> {
-    console.log(result.value.markersByUser);
-    MarkerStore.marksArray = result.value.markersByUser as UUIDMark[];
-  })
+  MarkerStoreHooks.updateMarkerStore();
 })
-

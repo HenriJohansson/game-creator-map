@@ -1,7 +1,10 @@
+
 import { type UUIDMark } from "@/interfaces/Mark";
 
 class OrderedMarkerFactory {
+
   createDefaultOrderedMarker = (): UUIDMark => {
+
     return new Object({
       id: crypto.randomUUID(),
       marker_name: "",
