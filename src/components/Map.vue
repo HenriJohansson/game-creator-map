@@ -35,7 +35,19 @@ onMounted(async () => {
 
   const {mutate: addMarker, onDone, onError } = await useMutation(
     MutationStore.ADD_MARKER_MUTATION
-    , () =>(mutationVariables))
+    , () =>(
+    mutationVariables
+    )
+  )
+
+  /* update: (cache, { data: { sendMessage } }) => {
+        let data = cache.readQuery({ query: Query }) as Array<Marker>;
+        data = {
+          ...data
+        }
+        cache.writeQuery({ query: MESSAGES, data })
+      },
+  */
 
   placeOnClick = (): void => {
     const placedMarker = MarkerStoreHooks.getChosenMark()
