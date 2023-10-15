@@ -1,5 +1,9 @@
+import { MarkerStoreHooks } from './MarkerStore';
+import { UserStoreHooks } from './UserStore';
 import { UUIDMark } from '@/interfaces/Mark'
-import { reactive } from 'vue'
+import { useQuery } from '@vue/apollo-composable';
+import { reactive, watch } from 'vue'
+import { Queries } from './QueryStore';
 
 const store: {marksArray: UUIDMark[], chosenMark: UUIDMark | null} = {
   marksArray: [],
@@ -10,7 +14,7 @@ const MarkerStore = reactive(store);
 
 export const MarkerStoreHooks = {
 
-  getMarkArray: (): UUIDMark[] => {
+  getMarkArray: (): Readonly<UUIDMark[]> => {
     return MarkerStore.marksArray;
   },
   /**
@@ -22,7 +26,9 @@ export const MarkerStoreHooks = {
     const markIndex = MarkerStoreHooks.findIndexOfMark(mark);
     if( markIndex === -1){
       mark.creation_date = new Date();
-      MarkerStore.marksArray.push(mark);
+      console.log(mark);
+      console.log(MarkerStore.marksArray);
+      MarkerStore.marksArray = [...MarkerStore.marksArray, mark];
     } else{
       MarkerStoreHooks.setToArrayIndex(mark, markIndex);
     }
@@ -47,3 +53,13 @@ export const MarkerStoreHooks = {
     MarkerStore.chosenMark = mark;
   }
 }
+
+watch(UserStoreHooks.getUserStore(), () => {
+  const { result } = useQuery(Queries.queryForMarkersByUser);
+
+  watch(result, ()=> {
+    console.log(result.value.markersByUser);
+    MarkerStore.marksArray = result.value.markersByUser as UUIDMark[];
+  })
+})
+

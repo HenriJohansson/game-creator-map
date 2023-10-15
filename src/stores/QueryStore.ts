@@ -5,10 +5,21 @@ provideApolloClient(apolloClient);
 
 export const Queries = {
   queryForMarkers: gql`
-  query {
+  query getMarkers {
     markers {
       id
       marker_name
+      location {
+        coordinates
+      }
+    }
+  }`,
+  queryForMarkersByUser: gql`
+  query getMarkersByUser {
+    markersByUser {
+      id
+      marker_name
+      description
       location {
         coordinates
       }

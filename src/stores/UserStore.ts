@@ -16,5 +16,11 @@ export const UserStoreHooks = {
   },
   getUserId: (): string | null => {
     return UserStore.userId
+  },
+  getUserStore: (): Readonly<{
+    userId: string | null;
+    token: string | null;
+  }> => {
+    return UserStore
   }
 }

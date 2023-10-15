@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 75vh; width: 50vw;">
+    <div style="height: 75vh; width: 100%;">
         <l-map :use-global-leaflet="false" v-model="zoom" v-model:zoom="zoom" v-model:center="centerRef" @click=placeOnClick()>
             <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"></l-tile-layer>
             <l-marker :key="index" v-for="(marker, index) in MarkerStoreHooks.getMarkArray()" :lat-lng="marker.location.coordinates" draggable>
@@ -33,21 +33,14 @@ let mutationVariables: Object;
 let placeOnClick: Function;
 onMounted(async () => {
 
+  console.log(MarkerStoreHooks.getMarkArray());
+
   const {mutate: addMarker, onDone, onError } = await useMutation(
     MutationStore.ADD_MARKER_MUTATION
     , () =>(
     mutationVariables
     )
   )
-
-  /* update: (cache, { data: { sendMessage } }) => {
-        let data = cache.readQuery({ query: Query }) as Array<Marker>;
-        data = {
-          ...data
-        }
-        cache.writeQuery({ query: MESSAGES, data })
-      },
-  */
 
   placeOnClick = (): void => {
     const placedMarker = MarkerStoreHooks.getChosenMark()
@@ -57,6 +50,8 @@ onMounted(async () => {
       if (placedMarker.marker_name) {
         placedMarker.location.coordinates = [centerRef.value.lat, centerRef.value.lng];
         mutationVariables = MutationStore.getAddMarkerVariables(placedMarker);
+        MarkerStoreHooks.marksArrayPush(placedMarker);
+        console.log(MarkerStoreHooks.getMarkArray());
         addMarker();
         emit('reload');
       }
@@ -82,7 +77,7 @@ onMounted( () => {
 })
 
 const logMarkers = () => {
-  const { result } = useQuery(Queries.queryForMarkers);
+  const { result } = useQuery(Queries.queryForMarkersByUser);
 
   watch(result, ()=> {
     console.log("Found Markers: ", result.value);
