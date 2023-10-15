@@ -6,7 +6,6 @@ import { loginQ } from "../querys/LoginQuery";
 import { UserStoreHooks } from "../stores/UserStore";
 
 const hover = ref(false);
-const checked = ref(false);
 const login: Ref<HTMLElement | null | undefined> = ref();
 const apiURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -33,11 +32,20 @@ const loginFunction = async () => {
     console.log(error);
   }
 }
+
+const hoverControl = () => {
+  hover.value = true;
+  setTimeout(() => {
+    hover.value = false;
+  }, 5000);
+}
+
+
 </script>
 
 <template>
   <div style="width: 250px; height: 250px; visibility: hidden;" id="form_borders">
-    <div @mouseover="hover = true" @mouseleave="hover = false" :class="{ active: hover, inactive: !hover }" ref="login"
+    <div @mouseover="hover = true" @mouseleave="hoverControl" :class="{ active: hover, inactive: !hover }" ref="login"
       id="form_background">
       <div v-if="hover" class="active" id="form">
         <label for="uname"><b>Username</b></label>
@@ -47,9 +55,6 @@ const loginFunction = async () => {
         <input v-model="password" type="password" placeholder="Enter Password" name="psw" required>
 
         <button @click="loginFunction">Login</button>
-        <label>
-          <input type="checkbox" :checked="checked" name="remember"> Remember me
-        </label>
       </div>
       <img v-else src="@/assets/login_black_24dp.svg" alt="Login" />
     </div>
@@ -80,7 +85,7 @@ div {
   right: 0;
 }
 
-#form {
+#form * {
   margin: 5px 10% 15px 10%;
   right: 0
 }
