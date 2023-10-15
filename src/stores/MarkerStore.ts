@@ -1,4 +1,3 @@
-import { MarkerStoreHooks } from './MarkerStore';
 import { UserStoreHooks } from './UserStore';
 import { UUIDMark } from '@/interfaces/Mark'
 import { useQuery } from '@vue/apollo-composable';
